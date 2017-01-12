@@ -1,15 +1,30 @@
 * {
     box-sizing: border-box;
-}
-
-*:focus {
-    outline: none;
+    &:focus {
+        outline: none;
+    }
 }
 
 body {
     font-family: Arial;
-    background-color: #3498DB;
+    background-color: $background;
     padding: 50px;
+}
+
+input {
+    text-align: center;
+    background-color: #ECF0F1;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 200;
+    padding: 10px 0;
+    width: 250px;
+    transition: border .5s;
+    &:focus {
+        border: 2px solid #3498DB;
+        box-shadow: none;
+    }
 }
 
 .login {
@@ -36,23 +51,6 @@ body {
     margin-bottom: 10px;
 }
 
-input {
-    text-align: center;
-    background-color: #ECF0F1;
-    border: 2px solid transparent;
-    border-radius: 3px;
-    font-size: 16px;
-    font-weight: 200;
-    padding: 10px 0;
-    width: 250px;
-    transition: border .5s;
-}
-
-input:focus {
-    border: 2px solid #3498DB;
-    box-shadow: none;
-}
-
 .btn {
     border: 2px solid transparent;
     background: #3498DB;
@@ -68,10 +66,9 @@ input:focus {
     display: block;
     width: 250px;
     margin: 0 auto;
-}
-
-.btn:hover {
-    background-color: #2980B9;
+    &:hover {
+        background-color: #2980B9;
+    }
 }
 
 .login-link {
@@ -79,4 +76,15 @@ input:focus {
     color: #444;
     display: block;
     margin-top: 12px;
+}
+
+.form-error {
+    color: #c25975;
+}
+
+.has-error {
+    input[type='text'],
+    input[type='password'] {
+        border: 2px solid #c25975;
+    }
 }

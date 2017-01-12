@@ -1,27 +1,41 @@
-import React from 'react';
+import React from "react";
 import { Link } from "react-router";
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 
-export default class Login extends React.Component {
+import { RenderField } from "./renderField";
+import * as actions from '../../actions/login';
+
+class Login extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+	}
+
+	handleFormSubmit(props) {
+		this.props.signinUser(props);
 	}
 
 	render() {
+		const { handleSubmit } = this.props;
+
 		return (
 			<div className="login">
 		        <div className="login-screen">
 		            <div className="app-title">
-		                <h1>Login</h1>
+		                <h1>Login form</h1>
 		            </div>
-		            <form action="/api/signin" className="login-form" method="POST">
-		                <div className="control-group">
-		                    <input type="text" className="login-field" placeholder="username" id="username" name="username" required/>
-		                    <label className="login-field-icon fui-user" htmlFor="username"></label>
-		                </div>
-		                <div className="control-group">
-		                    <input type="password" className="login-field" placeholder="password" id="password" name="password" required/>
-		                    <label className="login-field-icon fui-lock" htmlFor="password"></label>
-		                </div>
+		            <form onSubmit={handleSubmit(this.handleFormSubmit)} className="login-form">
+		            	{/* Server error message */}
+						{ this.props.errorMessage && this.props.errorMessage.signin &&
+						<div className="error-container signin-error">Oops! { this.props.errorMessage.signin }</div> }
+						
+						{/* Email */}
+						<Field name="email" component={ RenderField } type="text" placeholder="Email" />
+						{/* Password */}
+						<Field name="password" component={ RenderField } type="password" placeholder="Password" />
+		                
 		                <button className="btn btn-primary btn-large btn-block">login</button>
 		            </form>
 		        </div>
@@ -29,3 +43,30 @@ export default class Login extends React.Component {
 		);
 	}
 }
+
+/**
+ * Function para validar los campos del formulario.
+ */
+const validate = (formProps) => {
+	const errors = {};
+
+	if(!formProps.email) {
+		errors.email = 'Email is required';
+	} else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formProps.email)) {
+		errors.email = "please provide valid email";
+	}
+
+	if(!formProps.password) {
+		errors.password = 'Password is required';
+	}
+
+	return errors;
+};
+
+const mapStateToProps = (state) =>  {
+	return { errorMessage: state.login.error };
+};
+
+Login = reduxForm({ form: 'signin', validate })(Login);
+
+export default connect(mapStateToProps, actions)(Login);
