@@ -1,0 +1,17 @@
+{
+    "name": "react-redux-example",
+    "version": "1.0.0",
+    "description": "Example for ReactStack",
+    "main": "src/index.js",
+    "scripts": {
+
+    },
+    "keywords": [
+        "react",
+        "redux",
+        "gulp",
+        "nodejs"
+    ],
+    "author": "Antonio Orozco",
+    "license": "ISC"
+}
